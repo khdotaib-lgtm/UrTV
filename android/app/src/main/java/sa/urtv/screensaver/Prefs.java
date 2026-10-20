@@ -10,7 +10,7 @@ import java.util.List;
 
 /** Everything the user picks in settings, and the dashboard URL built from it. */
 final class Prefs {
-    static final String TZ = "Asia/Riyadh";
+    static final String TZ = "Asia/Kuwait";
 
     // TheSportsDB id, Arabic name; more teams come from the in-app search
     static final String[][] TEAM_PRESETS = {
@@ -65,9 +65,9 @@ final class Prefs {
 
     Prefs(Context c) { sp = c.getSharedPreferences("settings", Context.MODE_PRIVATE); }
 
-    /** {name, latitude, longitude}; Riyadh until the user picks */
+    /** {name, latitude, longitude}; Kuwait City until the user picks */
     String[] city() {
-        return new String[] {sp.getString("cityName", "الرياض"), sp.getString("cityLat", "24.6877"), sp.getString("cityLon", "46.7219")};
+        return new String[] {sp.getString("cityName", "مدينة الكويت"), sp.getString("cityLat", "29.3759"), sp.getString("cityLon", "47.9774")};
     }
     void setCity(String name, String lat, String lon) {
         sp.edit().putString("cityName", name).putString("cityLat", lat).putString("cityLon", lon).apply();

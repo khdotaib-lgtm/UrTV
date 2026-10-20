@@ -147,7 +147,7 @@ public class SettingsActivity extends Activity {
 
     // any place in Saudi Arabia, from Open-Meteo's GeoNames search
     private void searchCity() {
-        ask("اسم المدينة أو القرية", q -> fetch("https://geocoding-api.open-meteo.com/v1/search?count=20&language=ar&countryCode=SA&name="
+        ask("اسم المدينة أو القرية", q -> fetch("https://geocoding-api.open-meteo.com/v1/search?count=20&language=ar&countryCode=KW&name="
             + Uri.encode(q), json -> {
                 JSONArray a = new JSONObject(json).optJSONArray("results");
                 if (a == null || a.length() == 0) { toast("لا توجد نتائج"); return; }

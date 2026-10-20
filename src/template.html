@@ -134,6 +134,7 @@
   .dates{text-align:right;flex-shrink:0}
   .hijri{font-size:clamp(19px,1.86vw,37px);font-weight:500;color:var(--sand);line-height:1.3}
   .greg{margin-top:.55vh;font-size:clamp(12px,1.06vw,21px);font-weight:300;color:var(--dim)}
+  .whitedays{margin-top:.55vh;font-size:clamp(12px,1.06vw,21px);font-weight:500;color:var(--gold)}
   /* starts at the screen edge, under the first letters, and fades toward the middle */
   .rule{margin-top:1.2vh;width:clamp(100px,9vw,190px);height:1px;margin-left:auto;margin-right:0;
     background:linear-gradient(270deg,var(--gold),rgba(220,184,111,0))}
@@ -264,12 +265,13 @@
     <div class="dates">
       <div class="hijri" id="hijri">—</div>
       <div class="greg" id="greg">—</div>
+      <div class="whitedays" id="whitedays" hidden></div>
       <div class="rule"></div>
     </div>
 
     <div class="markets">
       <div class="wxline"><span class="wxt" id="wx-temp"></span><span class="wxd" id="wx-desc"></span></div>
-      <div class="wxsub"><span id="wx-city">الرياض</span><span class="wxr" id="wx-range"></span></div>
+      <div class="wxsub"><span id="wx-city">مدينة الكويت</span><span class="wxr" id="wx-range"></span></div>
       <div class="rule l"></div>
       <div class="mk">
         <span class="m"><span>تاسي</span><span id="tasi-chg" class="delta" hidden></span></span>
@@ -284,7 +286,7 @@
       <div class="clock">
         <span class="ampm" id="ck-ap">—</span><span class="d" id="ck-h">--</span><span class="sep">:</span><span class="d" id="ck-m">--</span>
       </div>
-      <div class="subline"><span class="dot"></span><span id="clock-sub">بتوقيت الرياض</span></div>
+      <div class="subline"><span class="dot"></span><span id="clock-sub">بتوقيت الكويت</span></div>
     </div>
 
     <div class="week">
@@ -326,11 +328,12 @@ const _Q = new URLSearchParams((location.hash || '').replace(/^#/, ''));
 const _list = k => (_Q.get(k) || '').split(',').map(x=>x.trim()).filter(Boolean);
 const _num = (k, d) => { const v = parseFloat(_Q.get(k)); return isNaN(v) ? d : v; };
 const CONFIG = {
-  city: _Q.get('city') || 'الرياض',
-  latitude: _num('lat', 24.7136),
-  longitude: _num('lon', 46.6753),
-  timezone: _Q.get('tz') || 'Asia/Riyadh',
-  prayerMethod: 4,
+  city: _Q.get('city') || 'مدينة الكويت',
+  latitude: _num('lat', 29.3759),
+  longitude: _num('lon', 47.9774),
+  timezone: _Q.get('tz') || 'Asia/Kuwait',
+  // Aladhan method 9: Kuwait (Fajr 18°, Isha 17.5°)
+  prayerMethod: 9,
   // followed teams in priority order: #teams=id,id,... (up to 10); older builds send team1/team2
   teamIds: (_Q.has('teams') ? _Q.get('teams').split(',')
             : [_Q.has('team1') ? _Q.get('team1') : '136013', _Q.has('team2') ? _Q.get('team2') : '136137'])
@@ -402,6 +405,30 @@ function tickDates(){
       timeZone: CONFIG.timezone, weekday:'long', day:'numeric', month:'long', year:'numeric'
     }).format(now);
   }catch(e){}
+  try{ tickWhiteDays(now); }catch(e){}
+}
+
+// the white days (13, 14, 15 of each Hijri month): a reminder the day before and on each day.
+// None in Ramadan (already fasting); in Dhu al-Hijjah the 13th is a day of Tashreeq, when fasting is
+// forbidden, so the reminder starts on the 13th for the 14th and 15th only.
+function tickWhiteDays(now){
+  const el = document.getElementById('whitedays');
+  const f = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{timeZone:CONFIG.timezone,day:'numeric',month:'numeric'})
+    .formatToParts(now).reduce((a,p)=>(a[p.type]=p.value,a),{});
+  const d = parseInt(f.day, 10), m = parseInt(f.month, 10);
+  let t = '';
+  if(m === 12){
+    if(d === 13) t = 'غداً صيام الأيام البيض (١٤ و١٥) · اليوم من أيام التشريق';
+    else if(d === 14) t = 'اليوم من الأيام البيض · ١٤';
+    else if(d === 15) t = 'اليوم آخر الأيام البيض · ١٥';
+  }else if(m !== 9){
+    if(d === 12) t = 'غداً تبدأ الأيام البيض (١٣ و١٤ و١٥)';
+    else if(d === 13) t = 'اليوم أول الأيام البيض · ١٣';
+    else if(d === 14) t = 'اليوم ثاني الأيام البيض · ١٤';
+    else if(d === 15) t = 'اليوم آخر الأيام البيض · ١٥';
+  }
+  el.textContent = t;
+  el.hidden = !t;
 }
 
 const PRAYER_KEYS = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
@@ -417,8 +444,8 @@ function buildPrayers(t){
   });
 }
 
-// Umm al-Qura: Fajr at 18.5°, Maghrib at sunset, Isha 90 min after Maghrib (120 in Ramadan),
-// Asr at shadow factor 1. Same method as Aladhan's method 4, so the offline times match to a minute or two.
+// Kuwait: Fajr at 18°, Maghrib at sunset, Isha at 17.5°, Asr at shadow factor 1.
+// Same method as Aladhan's method 9, so the offline times match to a minute or two.
 function computePrayers(){
   const p = riyadhParts(), lat = CONFIG.latitude, lng = CONFIG.longitude;
   const tz = Math.round((Date.UTC(p.y,p.mo-1,p.d,p.h,p.mi,p.s) - Date.now()) / 60000) / 60;
@@ -446,10 +473,10 @@ function computePrayers(){
     return angleTime(a, t, false);
   };
   const adj = h => h + tz - lng/15;
-  const fajr = adj(angleTime(18.5, 5, true)), dhuhr = adj(noon(12)), asr = adj(asrTime(13));
+  const fajr = adj(angleTime(18, 5, true)), dhuhr = adj(noon(12)), asr = adj(asrTime(13));
   const sunrise = adj(angleTime(.833, 6, true));
   const maghrib = adj(angleTime(.833, 18, false));
-  const isha = maghrib + (hijriMonthNow() === 9 ? 120 : 90)/60;
+  const isha = adj(angleTime(17.5, 18, false));
   const hm = h => { const m = Math.round(fix(h, 24)*60) % 1440; return pad(Math.floor(m/60)) + ':' + pad(m%60); };
   return {Fajr:hm(fajr), Sunrise:hm(sunrise), Dhuhr:hm(dhuhr), Asr:hm(asr), Maghrib:hm(maghrib), Isha:hm(isha)};
 }
@@ -1129,7 +1156,7 @@ function pixelShift(){
 
 // Background photos: the hosted set in photos/ (photos/index.json in the repo). A hosted photo is used only
 // once it has loaded; offline, or if it fails, a bundled one is shown, so the screen is never empty.
-const PHOTO_BASE = 'https://raw.githubusercontent.com/tshi-dev/UrTV/master/photos/';
+const PHOTO_BASE = 'https://raw.githubusercontent.com/khdotaib-lgtm/UrTV/master/photos/';
 let REMOTE_BGS = (()=>{ try{ return JSON.parse(localStorage.getItem('photoIndex') || '[]'); }catch(e){ return []; } })();
 
 async function loadPhotoIndex(){
