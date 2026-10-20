@@ -95,7 +95,7 @@ for (const [panel, [rows, title]] of Object.entries(EXPECT)) {
     for (const k of [0, 1]) { window.riyadhDayNumber = () => day() + k; out.push(quoteOfDay().title); }
     return out.sort().join(',');
   });
-  check('card verse: a verse one day, a hadith the next', both === 'آية اليوم,حديث اليوم', both);
+  check('card verse: a hadith every day (Kuwait build)', both === 'حديث اليوم,حديث اليوم', both);
   await ctx.close();
 }
 
