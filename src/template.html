@@ -1075,10 +1075,9 @@ const VERSES = __VERSES__;   // assets/shared/verses.json
 // hadith: only those .github/tools/verify_hadith.py found in the six books, each shown in full as the book has it,
 // isnad and all: parts are ["n", narration] and ["q", the Prophet's words]; source is the book and its number
 const HADITH = __HADITH__;   // assets/shared/hadith.json, through src/build.py
-// Kuwait build: a hadith every day (the verses stay in the page, unused)
 function quoteOfDay(){
-  const n = riyadhDayNumber(), half = n;
-  if(false){
+  const n = riyadhDayNumber(), half = Math.floor(n / 2);
+  if(VERSES.length && n % 2 === 0){
     const v = VERSES[half % VERSES.length];
     return {title:'آية اليوم', rows:[`<li class="quote"><span class="orn">﴿</span>${esc(v.text)}<span class="orn">﴾</span></li>`, `<li class="src">${esc(v.surah)} · ${ar(v.ayah)}</li>`]};
   }
