@@ -343,8 +343,8 @@ const CONFIG = {
          (_Q.get('panel') || (_Q.get('week') === '0' ? 'none' : 'shows')),
   matchesPerPage: 2,
   matchPageMs: 15000,
-  // Kuwait build: no iqama times; «حان الآن» stays up this many minutes after the adhan
-  nowMinutes: 10,
+  // minutes from adhan to iqama (the user's mosque in Kuwait); Friday Dhuhr has none
+  iqama: {Fajr:25, Dhuhr:20, Asr:25, Maghrib:10, Isha:10},
   // "new this week" filters from the app: TVMaze genres, languages, countries, picked show ids
   shows: {
     genres: _list('genres'),
@@ -538,17 +538,19 @@ function tickPrayer(){
   const p = riyadhParts();
   const mins = p.h*60 + p.mi + p.s/60;
 
-  // just after the adhan: «حان الآن», no iqama countdown
+  // between adhan and iqama: show the iqama countdown
   const cur = PRAYERS.find(x=>{
     const at = x.h*60 + x.mi;
-    return mins >= at && mins < at + CONFIG.nowMinutes;
+    const gap = (x.key === 'Dhuhr' && isFriday()) ? 0 : (CONFIG.iqama[x.key] || 0);
+    return mins >= at && mins < at + gap;
   });
   if(cur){
+    const left = (cur.h*60 + cur.mi + CONFIG.iqama[cur.key]) - mins;
     panel.classList.add('now');
     elL.textContent = 'حان الآن';
     elN.textContent = prayerName(cur);
     elT.textContent = fmt12(cur.h, cur.mi);
-    elC.textContent = 'حيّ على الصلاة';
+    elC.innerHTML = 'الإقامة بعد <b>' + humanRemaining(Math.max(60, Math.ceil(left)*60)) + '</b>';
     return;
   }
 
