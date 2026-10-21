@@ -127,6 +127,10 @@ final class Prefs {
     String minRating() { return sp.getString("minRating", "7"); }
     void setMinRating(String v) { sp.edit().putString("minRating", v).apply(); }
 
+    /** the adhan at each prayer time (AdhanReceiver); on unless turned off */
+    boolean adhan() { return sp.getBoolean("adhan", true); }
+    void setAdhan(boolean v) { sp.edit().putBoolean("adhan", v).apply(); }
+
     boolean autoUpdate() { return sp.getBoolean("autoUpdate", true); }
     void setAutoUpdate(boolean v) { sp.edit().putBoolean("autoUpdate", v).apply(); }
 

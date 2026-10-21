@@ -66,6 +66,7 @@ public class SettingsActivity extends Activity {
     }
 
     private void render() {
+        AdhanReceiver.schedule(this);   // after any change (city, the adhan switch), and whenever settings open
         list.removeAllViews();
         TextView title = new TextView(this);
         title.setText("تلفزيونك");
@@ -90,6 +91,14 @@ public class SettingsActivity extends Activity {
         header("المباريات");
         row("الفرق المتابعة (" + arabicNum(prefs.teams().size()) + "/" + arabicNum(Prefs.MAX_TEAMS) + ")", teamsLabel(),
             R.drawable.ic_trophy, new Runnable() { public void run() { manageTeams(); } });
+
+        header("الأذان");
+        row("صوت الأذان", prefs.adhan() ? "يعمل · مع كل صلاة" : "متوقف", R.drawable.ic_screensaver, new Runnable() { public void run() {
+            prefs.setAdhan(!prefs.adhan()); render(); } });
+        row("تجربة الأذان", "يشغّل الأذان الآن", R.drawable.ic_play, new Runnable() { public void run() {
+            AdhanService.play(SettingsActivity.this, ""); } });
+        row("إيقاف الأذان", "يوقف الأذان إذا كان يعمل", R.drawable.ic_screensaver, new Runnable() { public void run() {
+            AdhanService.stop(SettingsActivity.this); } });
 
         header("بجانب الساعة");
         row("المحتوى", Prefs.panelLabel(prefs.panel()), R.drawable.ic_eye, new Runnable() { public void run() { pickPanel(false); } });

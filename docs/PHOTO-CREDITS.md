@@ -99,3 +99,8 @@ From [Unsplash](https://unsplash.com), under the [Unsplash License](https://unsp
 | `photos/efzvMAIpfWY.jpg` | NEOM | [unsplash](https://unsplash.com/photos/a-couple-of-people-that-are-standing-in-the-dirt-efzvMAIpfWY) |
 | `photos/_Fmibx42BVU.jpg` | YUNUS A KHALIFAH | [unsplash](https://unsplash.com/photos/panoramic-photography-of-desert-during-daytime-_Fmibx42BVU) |
 | `photos/rkRYbmPuhOE.jpg` | Stijn te Strake | [unsplash](https://unsplash.com/photos/birds-eye-photography-of-city-rkRYbmPuhOE) |
+
+## Adhan recording (Kuwait build)
+
+`android/app/src/main/res/raw/adhan.ogg`: «Beautiful adhan» by Adam-synagda, CC0, from Wikimedia Commons
+(https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg).

@@ -30,6 +30,7 @@ public class UpdateJob extends JobService {
         new Thread(new Runnable() {
             @Override public void run() {
                 Updater.check(getApplicationContext(), false);
+                AdhanReceiver.schedule(getApplicationContext());   // belt and braces for the adhan alarm
                 jobFinished(p, false);
             }
         }).start();
