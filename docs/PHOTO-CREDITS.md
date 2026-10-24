@@ -104,3 +104,23 @@ From [Unsplash](https://unsplash.com), under the [Unsplash License](https://unsp
 
 `android/app/src/main/res/raw/adhan.ogg`: «Beautiful adhan» by Adam-synagda, CC0, from Wikimedia Commons
 (https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg).
+
+## Background photos (Kuwait build)
+
+The hosted set in `photos/`, from Wikimedia Commons, cropped to 1920x1080:
+
+- `kw-a.jpg`: Kuwait beach with sunrise.jpg by Zainqasem, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Kuwait_beach_with_sunrise.jpg
+- `kw-b.jpg`: Kuwait beach with sunrise 2.jpg by Zainqasem, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Kuwait_beach_with_sunrise_2.jpg
+- `kw-c.jpg`: Sunrise at Mahboula beach.jpg by Kishore R Sudarsan, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Sunrise_at_Mahboula_beach.jpg
+- `kw-d.jpg`: Sunrise in Mahboula beach.jpg by Kishore R Sudarsan, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Sunrise_in_Mahboula_beach.jpg
+- `kw-e.jpg`: Doha beach with flamingos at sunset in Kuwait 01.jpg by Mfalhajji, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Doha_beach_with_flamingos_at_sunset_in_Kuwait_01.jpg
+- `kw-f.jpg`: The waves (Kuwait sea).jpg by Aabbou, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:The_waves_(Kuwait_sea).jpg
+- `kw-g.jpg`: Playa Dasman, ciudad de Kuwait, Kuwait, 2024-08-12, DD 04.jpg by Diego Delso, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Playa_Dasman,_ciudad_de_Kuwait,_Kuwait,_2024-08-12,_DD_04.jpg
+- `kw-h.jpg`: Playa Dasman, ciudad de Kuwait, Kuwait, 2024-08-12, DD 03.jpg by Diego Delso, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Playa_Dasman,_ciudad_de_Kuwait,_Kuwait,_2024-08-12,_DD_03.jpg
+- `kw-i.jpg`: Kuwait Towers2025.jpg by Gladiator2030, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Kuwait_Towers2025.jpg
+- `kw-j.jpg`: Kuwait city with arabian sea.jpg by Samarstha45, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Kuwait_city_with_arabian_sea.jpg
+- `kw-k.jpg`: Kuwait City Direction Coast 1.jpg by Zairon, CC BY 4.0, https://commons.wikimedia.org/wiki/File:Kuwait_City_Direction_Coast_1.jpg
+- `kw-l.jpg`: Failaka Island sea.jpg by ரோஜா, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Failaka_Island_sea.jpg
+- `kw-m.jpg`: Kuwait City Skyline (5023996893).jpg by Jack Versloot from Beijing, CC BY 2.0, https://commons.wikimedia.org/wiki/File:Kuwait_City_Skyline_(5023996893).jpg
+- `kw-n.jpg`: Greater flamingos at sunset in Kuwait Bay.jpg by هويج محمود هويج, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Greater_flamingos_at_sunset_in_Kuwait_Bay.jpg
+- `kw-o.jpg`: Kuwait City skyline (39710595225).jpg by Francisco Anzola from United States, CC BY 2.0, https://commons.wikimedia.org/wiki/File:Kuwait_City_skyline_(39710595225).jpg
